@@ -9,9 +9,8 @@ React app at the **repository root**, which Vercel and Netlify build directly
 with no subfolder configuration. It is also an installable **PWA** (add to home
 screen on Android/iOS).
 
-> This repository also hosts a second, independent product line (**Wisal**) in
-> sibling folders. The root build is Lahza only. See **[PROJECTS.md](./PROJECTS.md)**
-> for the full project map and how to deploy or split each project separately.
+> This repository is **Lahza only**. The sibling products that used to share
+> this tree now live in their own repositories — see **[PROJECTS.md](./PROJECTS.md)**.
 
 > Mobile-first · conversion-focused · Arabic RTL-quality · UAE-compliance-ready.
 
@@ -108,12 +107,3 @@ Law, VAT/FTA invoicing, and PDPL for photo uploads). See
 - WhatsApp Business API via a BSP for order/utility/OTP messages.
 
 ---
-
-## Also in this repository
-
-| Project | Path | What it is |
-| --- | --- | --- |
-| **Beyond Style UAE landing page** | [`landing/`](landing/) | Bilingual (Arabic-first/EN) static landing page for the personalized-jewelry brand — WhatsApp + Google Form ordering, no build step. Deployed to GitHub Pages by [`deploy-landing.yml`](.github/workflows/deploy-landing.yml). See [`landing/README.md`](landing/README.md). |
-| Android wife assistant | `android-wife-assistant/` | Native Android app (CI builds via [`android.yml`](.github/workflows/android.yml)) |
-| Telegram wife assistant | `telegram-wife-assistant/` | Telegram bot companion |
-| Wisal web | `wisal-web/` | Web app |
