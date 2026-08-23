@@ -1,5 +1,16 @@
 # Lahza
 
+## Product Authority
+
+| | |
+|---|---|
+| **Primary User** | Gift & event customers + Beyond Connect staff |
+| **Job To Be Done** | Order personalised coffee gifts and book event coffee stations |
+| **System of Record** | Coffee/event commerce: products, events, bookings, orders |
+| **System of Intelligence** | Capacity-conflict detection, campaign suggestions |
+| **Explicit Non-Goals** | Another Masaar · browser-only commerce · jewellery anything |
+
+
 A premium, **UAE-ready bilingual (EN/AR) SaaS commerce platform** for
 personalised coffee gifts, live event coffee stations, and corporate
 appreciation campaigns, operated by **Beyond Connect General Trading L.L.C**.
