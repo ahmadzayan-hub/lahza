@@ -64,7 +64,7 @@ export default function Home() {
               <div className="rounded-[2rem] border border-coffee-100 bg-cream-50 p-4 shadow-card">
                 <ProductPreview image={null} surface="cup" placeholderImage={SAMPLE_PHOTOS[0]} sample />
               </div>
-              <div className="absolute -start-3 top-8 rounded-2xl border border-coffee-100 bg-cream-50 px-3 py-2 shadow-soft">
+              <div className="absolute -start-3 bottom-28 rounded-2xl border border-coffee-100 bg-cream-50 px-3 py-2 shadow-soft">
                 <div className="text-sm leading-none text-gold-500">★★★★★</div>
                 <p className="mt-1 text-[11px] font-medium text-coffee-500">{t("trust.reviews")}</p>
               </div>

@@ -1,120 +1,187 @@
-# Lahza
+<p align="center">
+  <img src="public/logo.svg" width="72" alt="Lahza logo" />
+</p>
 
-## Product Authority
+<h1 align="center">Lahza · لحظة</h1>
+
+<p align="center">
+  Personalised coffee gifts, live event coffee stations, and corporate appreciation campaigns for the UAE.
+  <br />
+  A bilingual (English / Arabic, RTL) commerce storefront with a built-in operations console.
+</p>
+
+<p align="center">
+  <a href="https://github.com/ahmadzayan-hub/lahza/actions/workflows/ci.yml"><img alt="CI" src="https://github.com/ahmadzayan-hub/lahza/actions/workflows/ci.yml/badge.svg" /></a>
+  <img alt="React 18" src="https://img.shields.io/badge/React-18-61DAFB?logo=react&logoColor=white" />
+  <img alt="TypeScript" src="https://img.shields.io/badge/TypeScript-5-3178C6?logo=typescript&logoColor=white" />
+  <img alt="Vite 5" src="https://img.shields.io/badge/Vite-5-646CFF?logo=vite&logoColor=white" />
+  <img alt="Tailwind CSS 3" src="https://img.shields.io/badge/Tailwind_CSS-3-06B6D4?logo=tailwindcss&logoColor=white" />
+  <img alt="PWA" src="https://img.shields.io/badge/PWA-installable-2A1B12" />
+</p>
+
+<p align="center">
+  <a href="#features">Features</a> ·
+  <a href="#screens">Screens</a> ·
+  <a href="#getting-started">Getting started</a> ·
+  <a href="#deployment">Deployment</a> ·
+  <a href="#project-structure">Structure</a> ·
+  <a href="#status-and-known-gaps">Status</a>
+</p>
+
+<p align="center">
+  <img src="docs/images/hero.png" alt="Illustration: a latte cup and a gold-ribbon gift box on cream linen" width="100%" />
+</p>
+
+> The hero and packaging images in this README are **code-generated vector illustrations** rendered from SVG, not photographs or AI-generated photos. They are placeholders for brand photography.
+
+---
+
+## Overview
+
+Lahza is a customer-facing storefront plus a demo operations console for **Beyond Connect General Trading L.L.C**, Dubai.
 
 | | |
 |---|---|
-| **Primary User** | Gift & event customers + Beyond Connect staff |
-| **Job To Be Done** | Order personalised coffee gifts and book event coffee stations |
-| **System of Record** | Coffee/event commerce: products, events, bookings, orders |
-| **System of Intelligence** | Capacity-conflict detection, campaign suggestions |
-| **Explicit Non-Goals** | Another Masaar · browser-only commerce · jewellery anything |
+| **Customers** | Gift buyers, event hosts, and corporate teams across the seven Emirates |
+| **Core job** | Design a personalised coffee gift or book a coffee station, then pay online or request a WhatsApp payment link |
+| **Staff tooling** | An operations console at `/console` (overview, orders, leads, approvals, corporate accounts, inventory), demo data only |
+| **Languages** | English (LTR) and Arabic (RTL), switchable at any time |
 
+## Features
 
-A premium, **UAE-ready bilingual (EN/AR) SaaS commerce platform** for
-personalised coffee gifts, live event coffee stations, and corporate
-appreciation campaigns, operated by **Beyond Connect General Trading L.L.C**.
+**Customer journey**
 
-This is the customer-facing storefront + a demo operations console: a Vite +
-React app at the **repository root**, which Vercel and Netlify build directly
-with no subfolder configuration. It is also an installable **PWA** (add to home
-screen on Android/iOS).
+- **Three entry paths** on the home page: personal gift, corporate event, bulk order.
+- **Seven-step customisation studio** with a live, SVG-rendered preview of cup, sleeve, box and card.
+- **Image quality check** on upload, plus client-side cleanup and auto-crop for cups and boxes.
+- **Gift message assistant** in Arabic and English, with tone selection.
+- **Arabic name spelling helper** that uses a curated map and flags phonetic guesses.
+- **Delivery to all seven Emirates** with date and time selection.
+- **Corporate quotations** with VAT-exclusive B2B pricing, exported as a printable PDF.
 
-> This repository is **Lahza only**. The sibling products that used to share
-> this tree now live in their own repositories — see **[PROJECTS.md](./PROJECTS.md)**.
+**Platform**
 
-> Mobile-first · conversion-focused · Arabic RTL-quality · UAE-compliance-ready.
+- **Bilingual UI** with `dir` switched on the document, not just the text.
+- **Installable PWA** with a manifest and service worker.
+- **Route-level code splitting**, so the home page loads without the customiser, admin or legal pages.
+- **Compliance-oriented copy**: VAT-inclusive consumer prices, a non-returnable notice for personalised goods, and photo-consent and retention wording for PDPL.
+
+**Operations**
+
+- **Console at `/console`** with overview, orders, leads, approvals, corporate accounts and inventory tabs, all on demo data.
+
+**Integration seams**
+
+- `src/lib/ai.ts` contains swappable AI interfaces. They run deterministically with no keys. Set `VITE_AI_ENDPOINT` to route generation and image moderation to a real provider.
+- Payments, WhatsApp Business API and moderation keys belong on a server. See [Recommended production wiring](#recommended-production-wiring).
+
+## Screens
+
+<table>
+  <tr>
+    <td width="60%"><img src="docs/images/screens/home-desktop.png" alt="Home page on desktop" /></td>
+    <td width="40%"><img src="docs/images/screens/customize-mobile.png" alt="Customisation studio on a phone, showing the step indicator" /></td>
+  </tr>
+  <tr>
+    <td colspan="2"><img src="docs/images/screens/pricing-desktop.png" alt="Pricing page with three packages" /></td>
+  </tr>
+</table>
+
+The customisation studio shows the current step name on phones (`Step 1 / 7 · Upload`), and the full step track from the `sm` breakpoint up. Each step has `aria-current="step"`.
 
 ## Stack
 
-- **Vite + React 18 + TypeScript**
-- **Tailwind CSS** with logical properties (`ps`/`pe`/`ms`/`me`) so layouts
-  mirror automatically in Arabic RTL
-- **react-router-dom** with route-level code splitting
-- Lightweight custom **i18n** (`src/i18n`) — EN source of truth, AR mirrored and
-  type-enforced to the same shape; switches `document.dir` instantly
-- Zero heavy runtime deps (no chart/animation/PDF libraries) to protect
-  Lighthouse / LCP / INP / CLS
+| Layer | Choice |
+|---|---|
+| UI | React 18, TypeScript (strict) |
+| Build | Vite 5 |
+| Styling | Tailwind CSS 3 with logical properties (`ps`/`pe`/`ms`/`me`), so layouts mirror in RTL |
+| Routing | react-router-dom 7, lazy routes |
+| Icons | lucide-react |
+| i18n | Custom dictionaries in `src/i18n`. English is the source, Arabic is type-checked against the same shape |
 
-## Quick start
+Runtime dependencies are deliberately small: no charting, animation or PDF libraries. The PDF quotation uses the browser's print-to-PDF.
+
+## Getting started
+
+Requires Node.js 20 or newer.
 
 ```bash
-# the Lahza app is the repository root — run these from the repo root
-npm install
-npm run dev        # http://localhost:5173
-npm run build      # tsc --noEmit + vite build
-npm run preview
+git clone https://github.com/ahmadzayan-hub/lahza.git
+cd lahza
+npm ci
+npm run dev          # http://localhost:5173
 ```
 
-## What's inside
+### Scripts
 
-| Area | Where |
-| --- | --- |
-| Home + 3 above-the-fold paths (Personal · Corporate · Bulk) | `src/pages/Home.tsx`, `components/CustomerPaths.tsx` |
-| Mobile header with hamburger | `components/Header.tsx` |
-| Non-overlapping WhatsApp FAB | `components/WhatsAppFab.tsx` (icon-only on mobile; `<main>` reserves bottom padding) |
-| Customisation flow (7 steps) | `src/pages/Customize.tsx`, `pages/customize/*` |
-| Live cup/sleeve/box/card preview | `components/ProductPreview.tsx` (SVG, no image weight) |
-| Corporate flow + **PDF quotation** | `src/pages/Corporate.tsx` (print-to-PDF), `lib/quotation.ts` |
-| Operations console | `src/pages/admin/Admin.tsx` at `/console` |
-| Bilingual dictionaries | `src/i18n/en.ts`, `src/i18n/ar.ts` |
-| Pricing / gallery / delivery / legal | `src/pages/*`, `lib/catalog.ts` |
-| Seller identity + VAT + compliance config | `src/lib/brand.ts` |
+| Command | What it does |
+|---|---|
+| `npm run dev` | Start the Vite dev server |
+| `npm run typecheck` | `tsc --noEmit` |
+| `npm run lint` | ESLint over `src/` |
+| `npm run build` | Typecheck, then produce `dist/` |
+| `npm run preview` | Serve the production build locally on port 4173 |
 
-### Customisation flow steps
+CI (`.github/workflows/ci.yml`) runs lint and build on every push and pull request to `main`.
 
-Upload → **image-quality validation** → live preview (cup/sleeve/box/card) →
-gift message (AR/EN) → package → delivery Emirate & date/time → review →
-pay online **or** request a WhatsApp payment link. Personalised-goods
-non-returnable notice + PDPL photo consent are enforced in-flow.
+### Configuration
 
-### AI features (`src/lib/ai.ts`)
+Copy `.env.example` to `.env.local` if you need an AI endpoint. Every variable is optional for the demo.
 
-All behind small, swappable interfaces. They run offline/deterministically out
-of the box; set `VITE_AI_ENDPOINT` to route generation + image moderation to a
-real provider (OpenAI / Anthropic / Gemini / Firefly).
+| Variable | Purpose |
+|---|---|
+| `VITE_AI_ENDPOINT` | Optional. Routes AI generation and image moderation to a server endpoint. Unset means built-in templates and heuristics. |
 
-- AI image cleanup + auto-crop for cup/box (canvas, client-side)
-- Arabic name spelling assistant (curated map + flagged phonetic fallback)
-- Gift-message generator (tone × language)
-- Corporate proposal + event-package recommender
-- Image moderation seam before checkout
+Do not put payment, WhatsApp or other secret keys in `VITE_*` variables. They end up in the client bundle.
 
-## UAE compliance readiness
+## Deployment
 
-Built to a UAE e-commerce compliance brief (Consumer Protection & E-Commerce
-Law, VAT/FTA invoicing, and PDPL for photo uploads). See
-[`docs/THREAT_MODEL.md`](docs/THREAT_MODEL.md) for the security view:
+The repository root is a plain Vite app, so both hosts build it without subfolder settings.
 
-- **Seller identity** (legal name, licence authority, licence no., TRN, address)
-  shown in footer, contact, checkout and on the quotation — edit in
-  `src/lib/brand.ts` (`TODO` values must be confirmed before launch).
-- **VAT-inclusive** consumer pricing; **VAT-exclusive** B2B with a full tax
-  invoice / quotation; 5% VAT wording throughout.
-- **Personalised-goods non-returnable** notice at checkout.
-- **PDPL**: explicit photo-upload consent, stated 30-day auto-deletion of source
-  photos, and a bilingual Privacy Policy covering retention, sharing,
-  cross-border transfers, children and AI processing.
-- Bilingual **Terms**, **Refund & Cancellation** and **Delivery** policies.
+- **Vercel**: `vercel.json` rewrites all routes to `index.html` and sets long-cache headers for `/assets/*`, plus a Content-Security-Policy and other security headers.
+- **Netlify**: `netlify.toml` provides the same SPA fallback, cache headers and security headers, with Node 20.
 
-> The seller licence number and TRN are placeholders — confirm and set them in
-> `src/lib/brand.ts`. Payment, WhatsApp Business API and real AI/moderation keys
-> belong on a server, never in the client bundle.
+Both files set the same CSP. If you add a third-party script, font or API origin, update both.
 
-## Performance notes
+Before launch, confirm the seller identity in `src/lib/brand.ts`. The licence number and TRN there are placeholders marked `TODO`.
 
-- Route-level `lazy()` splitting; home ships a small bundle.
-- Fonts preconnected with `display=swap`; SVG/gradient mockups instead of
-  hero images (no CLS, no large LCP image).
-- `prefers-reduced-motion` respected; all interactive controls are keyboard-
-  and screen-reader-labelled; skip-to-content link included.
+## Project structure
+
+```
+src/
+  App.tsx                  routes (lazy) and the console route
+  components/              Header, Footer, Stepper, ProductPreview, Layout, ...
+  pages/                   Home, Customize, Gallery, Corporate, Pricing, FAQ, Legal, ...
+    customize/             step components, types, totals, order message
+    admin/                 operations console at /console
+  lib/                     catalog, brand, quotation, whatsapp, ai seams, image quality
+  i18n/                    en.ts (source), ar.ts, dict.ts, I18nContext
+public/                    logo, icons, manifest, service worker, sample and gallery images
+docs/                      threat models and deployment notes
+```
+
+## Status and known gaps
+
+This is a working demo, not a live store.
+
+- **Payments** (Telr or PayTabs, Tabby, Tamara, Apple Pay, Google Pay) are not wired. Checkout currently hands the order to WhatsApp. The FAQ and legal pages describe payment methods that the code does not yet process, so that copy must be aligned before launch.
+- **Seller identity** includes placeholder licence and TRN values that must be confirmed.
+- **Gallery** uses illustrative product tiles, not customer photos.
+- **AI features** run deterministically until `VITE_AI_ENDPOINT` points to a real service.
+- **Operations console** works on demo data only.
+- **No license file** has been added yet. Until one is, the code is not open for reuse.
+
+Security notes are in [`docs/THREAT_MODEL.md`](docs/THREAT_MODEL.md).
 
 ## Recommended production wiring
 
-- Payments: **Telr** or **PayTabs** + **Tabby** + **Tamara** + Apple/Google Pay
-  + COD + corporate payment links.
-- Hosting/data residency: UAE cloud region for photos & invoice data; per-object
-  lifecycle rules to auto-purge source images after fulfilment.
-- WhatsApp Business API via a BSP for order/utility/OTP messages.
+- **Payments**: Telr or PayTabs, plus Tabby and Tamara, Apple Pay and Google Pay, cash on delivery, and corporate payment links.
+- **Hosting and data residency**: a UAE cloud region for uploaded photos and invoice data, with lifecycle rules that purge source images after fulfilment.
+- **Messaging**: WhatsApp Business API through a business solution provider for order, utility and one-time-password messages.
 
----
+## Contributing
+
+Use a branch and open a pull request against `main`. CI must pass (`npm run lint` and `npm run build`).
+
+Keep both languages in step: every user-facing string goes into `en.ts` and `ar.ts`, and the type checker enforces matching keys.

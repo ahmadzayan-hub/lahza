@@ -46,7 +46,7 @@ export function Header() {
               to={item.to}
               end={"end" in item ? item.end : undefined}
               className={({ isActive }) =>
-                `rounded-full px-3 py-2 text-sm font-medium transition ${
+                `whitespace-nowrap rounded-full px-2.5 py-2 text-sm font-medium transition ${
                   isActive ? "bg-coffee-50 text-coffee-900" : "text-coffee-600 hover:bg-coffee-50 hover:text-coffee-900"
                 }`
               }
@@ -58,7 +58,7 @@ export function Header() {
 
         <div className="flex items-center gap-2">
           <LanguageToggle className="hidden sm:inline-flex" />
-          <Link to="/customize" className="btn btn-gold btn-sm hidden lg:inline-flex">
+          <Link to="/customize" className="btn btn-gold btn-sm hidden whitespace-nowrap lg:inline-flex xl:hidden">
             {t("nav.startCustomizing")}
             <ArrowRight className={`h-4 w-4 ${isRtl ? "rotate-180" : ""}`} aria-hidden="true" />
           </Link>
